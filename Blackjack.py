@@ -5,7 +5,6 @@
 
 import operator, sys, time, random
 from graphics import *
-import xlwt
 
 class Environment:
     """Sets up the environment of the blackjack game"""
@@ -75,12 +74,8 @@ class Environment:
 
 class Blackjack:
     """Handles all of the gameplay of the blackjack games"""
-    def __init__(self, win, workbook, sheet, handCounter, winnings, deck1, deck2, deck3, deck4, cardOriginal, downCardOriginal, currentCards, tempCurrentCards, tempCurrentCards2, tempCurrentCards3, tempCurrentCards4, cardValues1, cardValues2, cardValues3, cardValues4, playerHand, playerHand2, dealerHand, chip100Original, chip10kOriginal, splitOn, splitHand, doubleDown1, doubleDown2, table, moveRight, moveDown, runningCount1, runningCount2, runningCount3, runningCount4, counter1, counter2, counter3, counter4, counter1text, counter2text, counter3text, counter4text, bankroll, bankrolltext, countThreshold, hitText, standText, doubleDownText, splitText, blackjackText, playerBustText, dealerBustText, playerWinText, dealerWinText, pushText, dealerScoreText, playerScoreText, playerScore2Text, dealerScores, playerScores, playerScores2, downCardScore, dealerHit):
+    def __init__(self, win, deck1, deck2, deck3, deck4, cardOriginal, downCardOriginal, currentCards, tempCurrentCards, tempCurrentCards2, tempCurrentCards3, tempCurrentCards4, cardValues1, cardValues2, cardValues3, cardValues4, playerHand, playerHand2, dealerHand, chip100Original, chip10kOriginal, splitOn, splitHand, doubleDown1, doubleDown2, table, moveRight, moveDown, runningCount1, runningCount2, runningCount3, runningCount4, counter1, counter2, counter3, counter4, counter1text, counter2text, counter3text, counter4text, bankroll, bankrolltext, countThreshold, hitText, standText, doubleDownText, splitText, blackjackText, playerBustText, dealerBustText, playerWinText, dealerWinText, pushText, dealerScoreText, playerScoreText, playerScore2Text, dealerScores, playerScores, playerScores2, downCardScore, dealerHit):
         self.win = win
-        self.workbook = workbook
-        self.handCounter = handCounter
-        self.winnings = winnings
-        self.sheet = sheet
         self.deck1 = deck1
         self.deck2 = deck2
         self.deck3 = deck3
@@ -181,15 +176,11 @@ class Blackjack:
                 self.dealHands()
             else:
                  i=1000
-        self.workbook.save('Blackjack3.xls')
-        blackjack(self.workbook, self.sheet, self.handCounter, self.winnings)
+        blackjack()
 
     def dealHands(self):
         """Deals each hand and restores all variables to original values for the current hand """
         time.sleep(1)
-        self.handCounter+=1
-        self.sheet.write(self.handCounter-1, 0, self.handCounter)
-        self.sheet.write(self.handCounter-1, 1, self.winnings)
         self.removeText()
         self.dealerScoreText.undraw()
         self.playerScoreText.undraw()
@@ -971,9 +962,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip10kClone2.undraw()
                     self.bankroll+=10000
-                    self.winnings+=10000
                 self.bankroll+=10000
-                self.winnings+=10000
             else:
                 for i in range(3):
                     self.chip100.undraw()
@@ -988,9 +977,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip100Clone2.undraw()
                     self.bankroll+=100
-                    self.winnings+=100
                 self.bankroll+=100
-                self.winnings+=100
         else:
             playerTotal=0
             playerTotal2=0
@@ -1023,9 +1010,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip10kClone2.undraw()
                         self.bankroll+=10000
-                        self.winnings+=10000
                     self.bankroll+=10000
-                    self.winnings+=10000
                 else:
                     for i in range(3):
                         self.chip100.undraw()
@@ -1040,9 +1025,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip100Clone2.undraw()
                         self.bankroll+=100
-                        self.winnings+=100
                     self.bankroll+=100
-                    self.winnings+=100
                 time.sleep(.5)
             if playerTotal2<21 or (playerTotal2==21 and len(self.playerScores2)!=2):
                 if currentCount>self.countThreshold:
@@ -1059,9 +1042,7 @@ class Blackjack:
                     if self.doubleDown2:
                         self.chip10kClone3.undraw()
                         self.bankroll-=10000
-                        self.winnings-=10000
                     self.bankroll-=10000
-                    self.winnings-=10000
                 else:
                     for i in range(3):
                         self.chip100Clone.undraw()
@@ -1076,9 +1057,7 @@ class Blackjack:
                     if self.doubleDown2:
                         self.chip100Clone3.undraw()
                         self.bankroll-=100
-                        self.winnings-=100
                     self.bankroll-=100
-                    self.winnings-=100
         self.drawBankroll()
 
     def playerBust(self):
@@ -1102,9 +1081,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip10kClone2.undraw()
                     self.bankroll-=10000
-                    self.winnings-=10000
                 self.bankroll-=10000
-                self.winnings-=10000
             else:
                 for i in range(3):
                     self.chip100.undraw()
@@ -1119,9 +1096,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip100Clone2.undraw()
                     self.bankroll-=100
-                    self.winnings-=100
                 self.bankroll-=100
-                self.winnings-=100
             self.drawBankroll()
         elif self.splitHand==1:
             currentCount=self.getCount()
@@ -1139,9 +1114,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip10kClone2.undraw()
                     self.bankroll-=10000
-                    self.winnings-=10000
                 self.bankroll-=10000
-                self.winnings-=10000
             else:
                 for i in range(3):
                     self.chip100.undraw()
@@ -1156,9 +1129,7 @@ class Blackjack:
                 if self.doubleDown1:
                     self.chip100Clone2.undraw()
                     self.bankroll-=100
-                    self.winnings-=100
                 self.bankroll-=100
-                self.winnings-=100
             self.drawBankroll()
             self.splitHand=2
             self.playerTurn()
@@ -1178,9 +1149,7 @@ class Blackjack:
                 if self.doubleDown2:
                     self.chip10kClone3.undraw()
                     self.bankroll-=10000
-                    self.winnings-=10000
                 self.bankroll-=10000
-                self.winnings-=10000
             else:
                 for i in range(3):
                     self.chip100Clone.undraw()
@@ -1195,9 +1164,7 @@ class Blackjack:
                 if self.doubleDown2:
                     self.chip100Clone3.undraw()
                     self.bankroll-=100
-                    self.winnings-=100
                 self.bankroll-=100
-                self.winnings-=100
             self.drawBankroll()
             self.dealerTurn()
 
@@ -1216,7 +1183,6 @@ class Blackjack:
                     time.sleep(.1)
                 self.chip10k.undraw()
                 self.bankroll+=15000
-                self.winnings+=15000
             else:
                 for i in range(3):
                     self.chip100.undraw()
@@ -1225,7 +1191,6 @@ class Blackjack:
                     time.sleep(.1)
                 self.chip100.undraw()
                 self.bankroll+=150
-                self.winnings+=150
             self.drawBankroll()
         elif self.splitHand==1:
             currentCount=self.getCount()
@@ -1238,7 +1203,6 @@ class Blackjack:
                 self.chip10k.undraw()
                 self.splitHand=2
                 self.bankroll+=15000
-                self.winnings+=15000
             else:
                 for i in range(3):
                     self.chip100.undraw()
@@ -1248,7 +1212,6 @@ class Blackjack:
                 self.chip100.undraw()
                 self.splitHand=2
                 self.bankroll+=150
-                self.winnings+=150
             self.drawBankroll()
             self.playerTurn()
         else:
@@ -1261,7 +1224,6 @@ class Blackjack:
                     time.sleep(.1)
                 self.chip10kClone.undraw()
                 self.bankroll+=15000
-                self.winnings+=15000
             else:
                 for i in range(3):
                     self.chip100Clone.undraw()
@@ -1270,7 +1232,6 @@ class Blackjack:
                     time.sleep(.1)
                 self.chip100Clone.undraw()
                 self.bankroll+=150
-                self.winnings+=150
             self.drawBankroll()
             self.playerHand.sort()
             player=0
@@ -1315,9 +1276,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip10kClone2.undraw()
                         self.bankroll+=10000
-                        self.winnings+=10000
                     self.bankroll+=10000
-                    self.winnings+=10000
                 else:
                     for i in range(3):
                         self.chip100.undraw()
@@ -1332,9 +1291,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip100Clone2.undraw()
                         self.bankroll+=100
-                        self.winnings+=100
                     self.bankroll+=100
-                    self.winnings+=100
                 self.drawBankroll()
             elif player<dealer:
                 self.removeText()
@@ -1355,9 +1312,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip10kClone2.undraw()
                         self.bankroll-=10000
-                        self.winnings-=10000
                     self.bankroll-=10000
-                    self.winnings-=10000
                 else:
                     for i in range(3):
                         self.chip100.undraw()
@@ -1372,9 +1327,7 @@ class Blackjack:
                     if self.doubleDown1:
                         self.chip100Clone2.undraw()
                         self.bankroll-=100
-                        self.winnings-=100
                     self.bankroll-=100
-                    self.winnings-=100
                 self.drawBankroll()
             elif player==dealer:
                 self.removeText()
@@ -1410,9 +1363,7 @@ class Blackjack:
                         if self.doubleDown1:
                             self.chip10kClone2.undraw()
                             self.bankroll+=10000
-                            self.winnings+=10000
                         self.bankroll+=10000
-                        self.winnings+=10000
                     else:
                         for i in range(3):
                             self.chip100.undraw()
@@ -1427,9 +1378,7 @@ class Blackjack:
                         if self.doubleDown1:
                             self.chip100Clone2.undraw()
                             self.bankroll+=100
-                            self.winnings+=100
                         self.bankroll+=100
-                        self.winnings+=100
                     self.drawBankroll()
                 elif player<dealer and player<22:
                     self.removeText()
@@ -1450,9 +1399,7 @@ class Blackjack:
                         if self.doubleDown1:
                             self.chip10kClone2.undraw()
                             self.bankroll-=10000
-                            self.winnings-=10000
                         self.bankroll-=10000
-                        self.winnings-=10000
                     else:
                         for i in range(3):
                             self.chip100.undraw()
@@ -1467,9 +1414,7 @@ class Blackjack:
                         if self.doubleDown1:
                             self.chip100Clone2.undraw()
                             self.bankroll-=100
-                            self.winnings-=100
                         self.bankroll-=100
-                        self.winnings-=100
                     self.drawBankroll()
                 elif player==dealer:
                     self.removeText()
@@ -1511,9 +1456,7 @@ class Blackjack:
                         if self.doubleDown2:
                             self.chip10kClone3.undraw()
                             self.bankroll+=10000
-                            self.winnings+=10000
                         self.bankroll+=10000
-                        self.winnings+=10000
                     else:
                         for i in range(3):
                             self.chip100Clone.undraw()
@@ -1528,9 +1471,7 @@ class Blackjack:
                         if self.doubleDown2:
                             self.chip100Clone3.undraw()
                             self.bankroll+=100
-                            self.winnings+=100
                         self.bankroll+=100
-                        self.winnings+=100
                     self.drawBankroll()
                 elif player2<dealer and player2<22:
                     self.removeText()
@@ -1551,9 +1492,7 @@ class Blackjack:
                         if self.doubleDown2:
                             self.chip10kClone3.undraw()
                             self.bankroll-=10000
-                            self.winnings-=10000
                         self.bankroll-=10000
-                        self.winnings-=10000
                     else:
                         for i in range(3):
                             self.chip100Clone.undraw()
@@ -1568,9 +1507,7 @@ class Blackjack:
                         if self.doubleDown2:
                             self.chip100Clone3.undraw()
                             self.bankroll-=100
-                            self.winnings-=100
                         self.bankroll-=100
-                        self.winnings-=100
                     self.drawBankroll()
                 elif player2==dealer:
                     self.removeText()
@@ -1586,7 +1523,7 @@ class Blackjack:
                         if self.doubleDown2:
                             self.chip100Clone3.undraw()
             
-def blackjack(workbook, sheet, handCounter, winnings):
+def blackjack():
     """Main function which sets up framework of the algorithm, and creates many global variables"""
     win=GraphWin("Blackjack",1100,800)
     newEnvironment=Environment(win)
@@ -1683,12 +1620,8 @@ def blackjack(workbook, sheet, handCounter, winnings):
     countThreshold = 9
     dealerHit=False
     cardOriginal=Image(Point(0,0), "back102.gif")
-    newGame=Blackjack(win, workbook, sheet, handCounter, winnings, deck1, deck2, deck3, deck4, cardOriginal, downCardOriginal, currentCards, tempCurrentCards, tempCurrentCards2, tempCurrentCards3, tempCurrentCards4, cardValues1, cardValues2, cardValues3, cardValues4, playerHand, playerHand2, dealerHand, chip100Original, chip10kOriginal, splitOn, splitHand, doubleDown1, doubleDown2, table, moveRight, moveDown, counter1, runningCount1, runningCount2, runningCount3, runningCount4, counter2, counter3, counter4, counter1text, counter2text, counter3text, counter4text, bankroll, bankrolltext, countThreshold, hitText, standText, doubleDownText, splitText, blackjackText, playerBustText, dealerBustText, playerWinText, dealerWinText, pushText, dealerScoreText, playerScoreText, playerScore2Text, dealerScores, playerScores, playerScores2, downCardScore, dealerHit)
+    newGame=Blackjack(win, deck1, deck2, deck3, deck4, cardOriginal, downCardOriginal, currentCards, tempCurrentCards, tempCurrentCards2, tempCurrentCards3, tempCurrentCards4, cardValues1, cardValues2, cardValues3, cardValues4, playerHand, playerHand2, dealerHand, chip100Original, chip10kOriginal, splitOn, splitHand, doubleDown1, doubleDown2, table, moveRight, moveDown, counter1, runningCount1, runningCount2, runningCount3, runningCount4, counter2, counter3, counter4, counter1text, counter2text, counter3text, counter4text, bankroll, bankrolltext, countThreshold, hitText, standText, doubleDownText, splitText, blackjackText, playerBustText, dealerBustText, playerWinText, dealerWinText, pushText, dealerScoreText, playerScoreText, playerScore2Text, dealerScores, playerScores, playerScores2, downCardScore, dealerHit)
     newGame.startGame()
     
 if __name__ == "__main__":
-    workbook = xlwt.Workbook()
-    sheet = workbook.add_sheet('Game Results')
-    handCounter=0
-    winnings=0
-    blackjack(workbook, sheet, handCounter, winnings)
+    blackjack()
